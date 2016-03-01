@@ -1,0 +1,25 @@
+{
+  "name": "client",
+  "authors": [
+    "jam openlab <jb.cavarec@orange.fr>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "lodash": "^4.5.0",
+    "jquery": "^2.2.0"
+  }
+}

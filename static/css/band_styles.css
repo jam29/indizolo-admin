@@ -1,0 +1,27 @@
+#banner { }
+#bandsContainer { }
+
+.listItem { }
+.bandName { color:red;}
+.bandCity { color:green }
+.bandStyle  { font-size: 10px ; color:orange}
+
+ul#menu {
+    padding: 0;
+}
+
+ul#menu li {
+    display: inline;
+}
+
+ul#menu li a {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px 4px 0 0;
+}
+
+ul#menu li a:hover {
+    background-color: orange;
+}

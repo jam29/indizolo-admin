@@ -5,6 +5,10 @@
     app.config(function($routeProvider) {
         $routeProvider
             // route for the home page
+            .when('/', {
+                templateUrl : 'static/home.html',
+                controller  : 'homeController'
+            })
             .when('/home', {
                 templateUrl : 'static/home.html',
                 controller  : 'homeController'

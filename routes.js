@@ -6,7 +6,6 @@ module.exports = function(app) {
   app.use('/static', express.static( './static')).
       use('/images', express.static( './images'))
   
-
   app.get('/', function(req, res){
     res.render('index');
   });	

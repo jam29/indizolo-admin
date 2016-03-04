@@ -37,8 +37,8 @@
         $scope.message = 'Everyone come and see how good I look!';
     });
 
-    app.controller('bandsController', ['$scope', '$http', 
-              function($scope, $http, $window) {
+    app.controller('bandsController', ['$scope', '$http', '$filter',
+              function($scope, $http , $filter, $window) {
 
                     $scope.poub = false ;
 
@@ -52,9 +52,10 @@
                 });
 
                     $scope.setCurrentBand = function(band) {
-                        $scope.currentBand = band ;   
+                        $scope.currentBand = band ;  
                         $scope.poub = true ;
                     }
+
 
                     $scope.change = function(){
                         $scope.disabled = false ;
@@ -92,10 +93,13 @@
 
                     $scope.deleteBand = function() {
                         $scope.disabled = true ;                     
+                        
                         var res = $http.post('/bands/delete', $scope.currentBand);
-                        res.success(function(data, status, headers, config) {
-                             console.log(data);
-                        });
+                        res.success(function(data, status, headers, config) { 
+                            console.log("SUPPRESSION DE", $scope.currentBand._id);
+                            $scope.bands = $filter('filter')($scope.bands, { _id: '!'+$scope.currentBand._id })
+                        }) 
+                        
                         res.error(function(data, status, headers, config) {
                             alert( "failure message: " + JSON.stringify({data: data}));
                         });

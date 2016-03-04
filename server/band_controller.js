@@ -40,6 +40,16 @@ exports.updateBand = function(req,res) {
   })
 }
 
+exports.deleteBand = function(req,res) {
+
+  Band.remove({_id:req.body._id}, function(err){ 
+      if (err) 
+        { res.json(404, {msg: 'Failed to update band.'}); }
+      else
+        {res.json({msg:'deleted'})}
+  })
+}
+
 /*
 exports.getCustomer = function(req, res) {
   Customer.findOne({ userid: 'customerA' })

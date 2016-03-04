@@ -39,6 +39,9 @@
 
     app.controller('bandsController', ['$scope', '$http', 
               function($scope, $http, $window) {
+
+                    $scope.poub = false ;
+
                     $http.get('/bands/get')
                         .success(function(data, status, headers, config) {
                             console.log("success mongo")
@@ -49,7 +52,12 @@
                 });
 
                     $scope.setCurrentBand = function(band) {
-                        $scope.currentBand = band ;
+                        $scope.currentBand = band ;   
+                        $scope.poub = true ;
+                    }
+
+                    $scope.change = function(){
+                        $scope.disabled = false ;
                     }
 
                     $scope.createBand = function() {
@@ -66,6 +74,34 @@
                             alert( "failure message: " + JSON.stringify({data: data}));
                         });
                     }
+
+                    $scope.updateBand = function() {
+                        $scope.disabled = true ;
+                        // création de données factices
+                        // var data = { "name":"nom du groupe","city":"ville","style":"punk" } ;  
+                                            
+                        var res = $http.post('/bands/put', $scope.currentBand);
+                        res.success(function(data, status, headers, config) {
+                             console.log(data);
+                        });
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });
+                    }
+
+
+                    $scope.deleteBand = function() {
+                        $scope.disabled = true ;                     
+                        var res = $http.post('/bands/delete', $scope.currentBand);
+                        res.success(function(data, status, headers, config) {
+                             console.log(data);
+                        });
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });
+                    }
+
+
                 }]);
 
    app.controller('homeController', function($scope) {

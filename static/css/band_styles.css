@@ -2,6 +2,7 @@
 
 #bandsContainer { }
 
+.btn_band { padding:20px;}
 
 .listItem {
 	padding: 20px ;
@@ -10,7 +11,7 @@
 	border-radius: 5px ;
  }
 
-.bandName 	{ color:red;}
+.bandName 	{ font-size:1em }
 .bandCity 	{ color:green }
 .bandStyle  { font-size: 10px ; color:orange}
 

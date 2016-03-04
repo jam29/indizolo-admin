@@ -2,7 +2,7 @@
 
 	<div class="col-md-4">
 
-		<div class="listItem" ng-repeat="band in bands" ng-click="setCurrentBand(band)">
+		<div class="listItem" ng-repeat="band in bands | orderBy: 'name' " ng-click="setCurrentBand(band)">
 
 			<span class="bandName"> {{ band.name }}   </span>
 			<!--span class="bandCity"> {{ band.city }}   </span>
@@ -10,7 +10,7 @@
 		
 		</div>
 
-		<a class="btn btn-primary" ng-click="createBand()">
+		<a class="btn_band btn btn-primary" ng-click="createBand()">
 			<span class="glyphicon glyphicon-plus"></span>
 		</a>
 
@@ -19,17 +19,22 @@
 	<div class="col-md-6">
 		<form>
 			<label class="control-label" for="inputTitle">Name</label>
-				<input type="text" class="form-control" ng-model="currentBand.name" />
+				<input type="text" class="form-control" ng-model="currentBand.name" ng-change="change()" />
 			<label class="control-label" for="inputTitle">City</label>
-				<input type="text" class="form-control" ng-model="currentBand.city" />
+				<input type="text" class="form-control" ng-model="currentBand.city"  ng-change="change()" />
 			<label class="control-label" for="inputTitle">Style</label> 
-				<input type="text" class="form-control" ng-model="currentBand.style" /> 
+				<input type="text" class="form-control" ng-model="currentBand.style"  ng-change="change()"/> 
 		
+			<div class="btn_band" ng-init="disabled=true">
+		    	<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
+			 		<span class="glyphicon glyphicon-save"></span>
+		    	</a>
+		    	<a ng-show="poub" class="btn btn-danger" ng-click="deleteBand()">
+			 		<span class="glyphicon glyphicon-trash"></span>
+		    	</a>
+			</div>
 
-		    <a class="btn btn-primary" ng-click="updateBand()">
-			 <span class="glyphicon glyphicon-save"></span>
-		    </a>
-		    
+
 		</form>
 
 	</div>

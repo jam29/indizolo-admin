@@ -11,5 +11,7 @@ module.exports = function(app) {
   });	
 
   app.get('/bands/get', bands.getBands);
+  app.post('/bands/post',bands.createBand);
+  
   // app.post('/customers/update/shipping', customers.updateShipping);
 }

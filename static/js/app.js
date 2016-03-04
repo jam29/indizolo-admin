@@ -37,23 +37,39 @@
         $scope.message = 'Everyone come and see how good I look!';
     });
 
-
     app.controller('bandsController', ['$scope', '$http', 
               function($scope, $http, $window) {
-              $http.get('/bands/get')
-                .success(function(data, status, headers, config) {
-              console.log("success mongo")
-              $scope.bands = data;
-              //$scope.band = data[0];
-      })
-      .error(function(data, status, headers, config) {
-        $scope.bands = [];
-      });
-    
-  }]);
+                    $http.get('/bands/get')
+                        .success(function(data, status, headers, config) {
+                            console.log("success mongo")
+                        $scope.bands = data;
+                    //$scope.band = data[0];
+                }).error(function(data, status, headers, config) {
+                    $scope.bands = [];
+                });
 
- app.controller('homeController', function($scope) {
-        $scope.message = 'WELCHOME';
+                    $scope.setCurrentBand = function(band) {
+                        $scope.currentBand = band ;
+                    }
+
+                    $scope.createBand = function() {
+                        // création de données factices
+                        var data = { "name":"nom du groupe","city":"ville","style":"punk" } ;  
+                                            
+                        var res = $http.post('/bands/post', data);
+                        res.success(function(data, status, headers, config) {
+                            //console.log(data);
+                            $scope.bands.push(data) 
+                            //$scope.message = data;
+                        });
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });
+                    }
+                }]);
+
+   app.controller('homeController', function($scope) {
+        $scope.message = 'WELCOME';
     });
 
     app.controller('aboutController', function($scope) {

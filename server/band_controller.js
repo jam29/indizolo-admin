@@ -13,6 +13,33 @@ exports.getBands = function(req, res) {
   });
 };
 
+exports.createBand = function(req,res) {
+    var band = new Band( { name: req.body.name , city: req.body.city ,style: req.body.style } )
+    console.log(req.body);
+
+   band.save(function (err) {
+    if (err) return handleError(err);
+    res.json(band)
+  });
+}
+
+exports.updateBand = function(req,res) {
+   Band.update( { _id: req.body._id },
+                { $set:{
+                  name: req.body.name,
+                  city: req.body.city,
+                  style: req.body.style
+                }}
+    )
+    .exec (function(err,results){
+      if (err || results < 1) {
+     res.json(404, {msg: 'Failed to update band.'});
+    } else {
+     res.json({msg: "Band Updated"});
+    }
+  })
+}
+
 /*
 exports.getCustomer = function(req, res) {
   Customer.findOne({ userid: 'customerA' })

@@ -1,13 +1,37 @@
-<div id="bandsContainer">
+<div class="row" id="bandsContainer">
 
-        <div class="listItem" ng-repeat="band in bands">
+	<div class="col-md-4">
 
-          <span class="bandName">{{band.name}}</span>
- 
-          <span class="bandCity">{{band.city}}</span>
+		<div class="listItem" ng-repeat="band in bands" ng-click="setCurrentBand(band)">
 
-          <span class="bandStyle">{{band.style}}</span>
-  
-        </div>
+			<span class="bandName"> {{ band.name }}   </span>
+			<!--span class="bandCity"> {{ band.city }}   </span>
+			<span class="bandStyle">{{ band.style }}  </span-->
+		
+		</div>
 
-      </div>
+		<a class="btn btn-primary" ng-click="createBand()">
+			<span class="glyphicon glyphicon-plus"></span>
+		</a>
+
+	</div>
+
+	<div class="col-md-6">
+		<form>
+			<label class="control-label" for="inputTitle">Name</label>
+				<input type="text" class="form-control" ng-model="currentBand.name" />
+			<label class="control-label" for="inputTitle">City</label>
+				<input type="text" class="form-control" ng-model="currentBand.city" />
+			<label class="control-label" for="inputTitle">Style</label> 
+				<input type="text" class="form-control" ng-model="currentBand.style" /> 
+		
+
+		    <a class="btn btn-primary" ng-click="updateBand()">
+			 <span class="glyphicon glyphicon-save"></span>
+		    </a>
+		    
+		</form>
+
+	</div>
+
+</div>

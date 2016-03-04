@@ -1,9 +1,17 @@
 #banner { }
+
 #bandsContainer { }
 
-.listItem { }
-.bandName { color:red;}
-.bandCity { color:green }
+
+.listItem {
+	padding: 20px ;
+	cursor: pointer ;
+	border: 1px solid #eee ;
+	border-radius: 5px ;
+ }
+
+.bandName 	{ color:red;}
+.bandCity 	{ color:green }
 .bandStyle  { font-size: 10px ; color:orange}
 
 ul#menu {

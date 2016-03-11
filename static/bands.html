@@ -1,40 +1,81 @@
+<h3>Bands</h3>
 <div class="row" id="bandsContainer">
 
 	<div class="col-md-4">
 
 		<div class="listItem" ng-repeat="band in bands | orderBy: 'name' " ng-click="setCurrentBand(band)">
-			<span class="bandName">{{ $index }} : {{ band._id }}   </span>
+			<!--span class="bandName">{{ $index }} : {{ band._id }}   </span-->
 			<span class="bandName">{{ band.name }}   </span>
-			<!--span class="bandCity"> {{ band.city }}   </span>
+			<!--span class="bandCity"> {{ band.city } }   </span>
 			<span class="bandStyle">{{ band.style }}  </span-->
-		
+
+			</div>
+
+			<div class="btn_band">
+				<a class="btn btn-primary" ng-click="createBand()">
+					<span class="glyphicon glyphicon-plus"></span>
+				</a>
+			</div>
+
 		</div>
 
-		<div class="btn_band">
-		<a class="btn_band btn btn-primary" ng-click="createBand()">
-			<span class="glyphicon glyphicon-plus"></span>
-		</a>
-	</div>
+		<div class="col-md-6" ng-show="montreEdition">
+			<form ng-controller="uploadController">
 
-	</div>
-
-	<div class="col-md-6">
-		<form>
-
-			<label class="control-label" for="inputTitle">Name</label>
-				<input type="text" class="form-control" ng-model="currentBand.name" ng-change="change()" />
-			<label class="control-label" for="inputTitle">City</label>
+				<label class="control-label" for="inputTitle">Name</label>
+				<input type="text" class="form-control" ng-model="currentBand.name"  ng-change="change()" />
+				<label class="control-label" for="inputTitle">City</label>
 				<input type="text" class="form-control" ng-model="currentBand.city"  ng-change="change()" />
-			<label class="control-label" for="inputTitle">Style</label> 
-				<input type="text" class="form-control" ng-model="currentBand.style"  ng-change="change()"/> 
-		
+				<label class="control-label" for="inputTitle">Style</label> 
+				
+				<!--input type="text" class="form-control" ng-model="currentBand.style" ng-change="change()"/--> 
+
+				<!--js-tag js-tag-options="jsTagOptions" ></js-tag-->
+				<tags-input ng-model="tags"></tags-input>
+ 				<!--p>Model: {{ tags }}</p-->
+
+<label class="control-label" for="inputTitle">Photo</label> 
+ 			<input 
+ 			    class="form-control" 
+                title="choisir un fichier" 
+                type="file" 
+                ngf-select 
+                ng-model="file" 
+                name="file" 
+                ngf-pattern="'image/*'"
+                accept="image/*" 
+                ngf-max-size="20MB" 
+                />
+
+            <!--img style="width:100px;" ng-show="!!file" ngf-thumbnail="file || '/thumb.jpg'"/>
+            <i ng-show="up.upload_form.file.$error.required">*required</i><br>
+            <i ng-show="up.upload_form.file.$error.maxSize">File too large 
+            {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+            
+            < Multiple files
+            <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
+            Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
+            
+           <div class="btn_band" ng-init="disabled=true">
+            <button type="submit" class="btn btn-primary" ng-disabled="disabled" ng-click="submit()">submit</button>
+        </div>
+            <p>{{up.progress}}</p>
+
+
+
+
+				
+
+
+
 			<div class="btn_band" ng-init="disabled=true">
-		    	<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
-			 		<span class="glyphicon glyphicon-save"></span>
-		    	</a>
-		    	<a ng-show="poub" class="btn btn-danger" ng-click="deleteBand()">
-			 		<span class="glyphicon glyphicon-trash"></span>
-		    	</a>
+
+				<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
+					<span class="glyphicon glyphicon-save"></span>
+				</a>
+				<a ng-show="poub" class="btn btn-danger" ng-click="deleteBand()">
+					<span class="glyphicon glyphicon-trash"></span>
+				</a>
 			</div>
 
 		</form>

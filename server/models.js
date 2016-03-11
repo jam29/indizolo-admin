@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var BandSchema = new Schema({
   name:  String,
   city:  String,
-  style: String
+  style: [String]
 });
 
 mongoose.model('Band', BandSchema);

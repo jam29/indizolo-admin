@@ -1,5 +1,7 @@
+
+
  // create the module and name it App
-    var app = angular.module('bandApp', ['ngRoute']);
+    var app = angular.module('bandApp', ['ngRoute','ngTagsInput','ngLodash','ngFileUpload']);
 
     // configure our routes
     app.config(function($routeProvider) {
@@ -35,35 +37,90 @@
     app.controller('mainController', function($scope) {
         // create a message to display in our view
         $scope.message = 'Everyone come and see how good I look!';
+
     });
 
-    app.controller('bandsController', ['$scope', '$http', '$filter',
-              function($scope, $http , $filter, $window) {
+    
+
+
+    app.controller('uploadController',['Upload','$scope','$window',function(Upload,$scope,$window){
+        
+    // application jquery pour décorer le type input=file (idéalement créer une directive)
+    $(function() {
+        $('input[type=file]').bootstrapFileInput();
+    })
+
+
+        $scope.submit = function(){ //function to call on form submit
+         //   if ($scope.upload_form.file.$valid && $scope.file) { //check if from is valid
+             if ( $scope.file) { //check if from is valid
+                $scope.upload($scope.file); //call upload function
+            }
+        }
+        
+        $scope.upload = function (file) {
+            Upload.upload({
+                url: 'http://localhost:8080/upload', //webAPI exposed to upload the file
+                data:{file:file} //pass file as data, should be user ng-model
+            }).then(function (resp) { //upload function returns a promise
+                if(resp.data.error_code === 0){ //validate success
+                    $window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
+                } else {
+                    $window.alert('an error occured');
+                }
+            }, function (resp) { //catch error
+                console.log('Error status: ' + resp.status);
+                $window.alert('Error status: ' + resp.status);
+            }, function (evt) { 
+                console.log(evt);
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+            });
+        };
+
+                $scope.change = function(){
+                        $scope.disabled = false ;
+                }
+
+
+
+
+    }]);
+
+
+
+    app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',
+              function($scope, $http , $filter, $window, lodash) {
+
 
                     $scope.poub = false ;
-
+                 
                     $http.get('/bands/get')
-                        .success(function(data, status, headers, config) {
-                            console.log("success mongo")
-                        $scope.bands = data;
-                    //$scope.band = data[0];
-                }).error(function(data, status, headers, config) {
-                    $scope.bands = [];
-                });
+                            .success(function(data, status, headers, config) {
+                                $scope.bands = data;
+                            }).error(function(data, status, headers, config) {
+                                $window.alert('vide');
+                                $scope.bands = [];
+                            });
 
                     $scope.setCurrentBand = function(band) {
-                        $scope.currentBand = band ;  
+
+                        $scope.montreEdition = true ;
+                        $scope.tags = [];
+                        $scope.currentBand = band ; 
+                        _.map(  band.style  , function(o) { 
+                            $scope.tags.push( { "text":o } ) ;
+                        } ) ;
+                        
+                        // console.log("MESTAGS",mesTags) ;
+                        
                         $scope.poub = true ;
-                    }
-
-
-                    $scope.change = function(){
-                        $scope.disabled = false ;
                     }
 
                     $scope.createBand = function() {
                         // création de données factices
-                        var data = { "name":"nom du groupe","city":"ville","style":"punk" } ;  
+                        var data = { "name":"_groupe","city":"ville","style":[] } ;  
                                             
                         var res = $http.post('/bands/post', data);
                         res.success(function(data, status, headers, config) {
@@ -79,8 +136,14 @@
                     $scope.updateBand = function() {
                         $scope.disabled = true ;
                         // création de données factices
-                        // var data = { "name":"nom du groupe","city":"ville","style":"punk" } ;  
-                                            
+                        // var data = { "name":"nom du groupe","city":"ville","style":"punk" } ; 
+                        $scope.currentBand.style = [] ; 
+                        _.map($scope.tags,function(tag) {
+                            console.log('MAP_TAG:',tag.text) ;
+                            
+                            ($scope.currentBand.style).push(tag.text);
+                        });                   
+                                         
                         var res = $http.post('/bands/put', $scope.currentBand);
                         res.success(function(data, status, headers, config) {
                              console.log(data);
@@ -96,7 +159,7 @@
                         
                         var res = $http.post('/bands/delete', $scope.currentBand);
                         res.success(function(data, status, headers, config) { 
-                            console.log("SUPPRESSION DE", $scope.currentBand._id);
+                            console.log("SUPPRESSION DE", $scope.currentBand);
                             $scope.bands = $filter('filter')($scope.bands, { _id: '!'+$scope.currentBand._id })
                         }) 
                         
@@ -104,7 +167,6 @@
                             alert( "failure message: " + JSON.stringify({data: data}));
                         });
                     }
-
 
                 }]);
 

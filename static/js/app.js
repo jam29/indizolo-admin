@@ -120,7 +120,7 @@
 
                     $scope.createBand = function() {
                         // création de données factices
-                        var data = { "name":"_groupe","city":"ville","style":[] } ;  
+                        var data = { "name":"_groupe","city":"ville","abstract":"","style":[],"members":[] } ;  
                                             
                         var res = $http.post('/bands/post', data);
                         res.success(function(data, status, headers, config) {

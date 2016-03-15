@@ -14,7 +14,7 @@ exports.getBands = function(req, res) {
 };
 
 exports.createBand = function(req,res) {
-    var band = new Band( { name: req.body.name , city: req.body.city ,style: req.body.style } )
+    var band = new Band( { name: req.body.name , city: req.body.city, abstract: req.body.abstract , style: req.body.style , members: req.body.members } )
     console.log(req.body);
 
    band.save(function (err) {
@@ -28,7 +28,9 @@ exports.updateBand = function(req,res) {
                 { $set:{
                   name: req.body.name,
                   city: req.body.city,
-                  style: req.body.style
+                  abstract: req.body.abstract,
+                  style: req.body.style,
+                  members: req.body.members
                 }}
     )
     .exec (function(err,results){

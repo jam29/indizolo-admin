@@ -15,6 +15,4 @@ module.exports = function(app) {
   app.post('/bands/put'   , bands.updateBand); 
   app.post('/bands/delete',	bands.deleteBand); 
 
-  // app.post('/customers/update/shipping', customers.updateShipping);
-
 }

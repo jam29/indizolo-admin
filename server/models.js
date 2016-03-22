@@ -7,10 +7,10 @@ var MemberSchema = new Schema({
 	member_of: [String]
 })
 
-vat typesAlbum = 'CD VINYL K7 MP3'.split(' ')
+var typesAlbum = 'CD VINYL K7 MP3'.split(' ')
 var AlbumSchema = new Schema({
   		serial_id: String, 
-  		type: { type:String, enum:typesAlbums },
+  		type: { type:String, enum:typesAlbum },
   		title: String,
   		release_date: Date,
   		price: Number,

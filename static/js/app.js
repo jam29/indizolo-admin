@@ -96,8 +96,9 @@
                     }
 
                     $scope.addAlbum = function(){
-                        $scope.album = true
-                        ($scope.currentBand.albums).push({"serial_id":0000,
+                        $scope.album = true ;
+                        ($scope.currentBand.albums).push({    
+                                                             "serial_id":0000,
                                                              "title":"title",
                                                              "release_date":"",
                                                              "price":"6,00",

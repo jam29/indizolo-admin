@@ -14,8 +14,20 @@ exports.getBands = function(req, res) {
 };
 
 exports.createBand = function(req,res) {
-    var band = new Band( { name: req.body.name , city: req.body.city, abstract: req.body.abstract , style: req.body.style , members: req.body.members } )
-    console.log(req.body);
+    var band = new Band({   
+                            name:     req.body.name, 
+                            city:     req.body.city, 
+                            abstract: req.body.abstract,
+                            contact:  req.body.contact,
+                            weblink:  req.body.weblink,
+                            facebook: req.body.facebook,
+                            twitter:  req.body.twitter,
+                            google:   req.body.google, 
+                            style:    req.body.style , 
+                            members:  req.body.members,
+                            albums:   req.body.albums,
+                            announce: req.body.announce
+                        })
 
    band.save(function (err) {
     if (err) return handleError(err);
@@ -26,11 +38,18 @@ exports.createBand = function(req,res) {
 exports.updateBand = function(req,res) {
    Band.update( { _id: req.body._id },
                 { $set:{
-                  name: req.body.name,
-                  city: req.body.city,
-                  abstract: req.body.abstract,
-                  style: req.body.style,
-                  members: req.body.members
+                            name:     req.body.name, 
+                            city:     req.body.city, 
+                            abstract: req.body.abstract,
+                            contact:  req.body.contact,
+                            weblink:  req.body.weblink,
+                            facebook: req.body.facebook,
+                            twitter:  req.body.twitter,
+                            google:   req.body.google, 
+                            style:    req.body.style, 
+                            members:  req.body.members,
+                            albums:   req.body.albums,
+                            announce: req.body.announce
                 }}
     )
     .exec (function(err,results){
@@ -53,6 +72,7 @@ exports.deleteBand = function(req,res) {
 }
 
 /*
+
 exports.getCustomer = function(req, res) {
   Customer.findOne({ userid: 'customerA' })
   .exec(function(err, customer) {
@@ -76,4 +96,5 @@ exports.updateShipping = function(req, res){
     }
   });
 };
+
 */

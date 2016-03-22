@@ -39,9 +39,7 @@
         $scope.message = 'Everyone come and see how good I look!';
 
     });
-
     
-
 
     app.controller('uploadController',['Upload','$scope','$window',function(Upload,$scope,$window){
         
@@ -78,23 +76,38 @@
                 $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
             });
         };
-
-                $scope.change = function(){
-                        $scope.disabled = false ;
-                }
-
-
-
-
     }]);
-
 
 
     app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',
               function($scope, $http , $filter, $window, lodash) {
 
+                $scope.poub = false ;
+                $scope.member = false ;
+                $scope.album = false ;
 
-                    $scope.poub = false ;
+                    $scope.change = function(){
+                        $scope.disabled = false ;
+                    }
+
+                    $scope.addMember = function(){
+                        
+                        ($scope.currentBand.members).push({"name":"member", "instrument":"guitar"});
+                    }
+
+                    $scope.addAlbum = function(){
+                        $scope.album = true
+                        ($scope.currentBand.albums).push({"serial_id":0000,
+                                                             "title":"title",
+                                                             "release_date":"",
+                                                             "price":"6,00",
+                                                             "cover":"0000.jpg",
+                                                             "tracks":[{"title":"","duration":0.10}]
+                                                         });
+                    }
+
+
+                    
                  
                     $http.get('/bands/get')
                             .success(function(data, status, headers, config) {
@@ -113,14 +126,31 @@
                             $scope.tags.push( { "text":o } ) ;
                         } ) ;
                         
-                        // console.log("MESTAGS",mesTags) ;
-                        
                         $scope.poub = true ;
+                    }
+
+                    $scope.setCurrentMember = function(member) {
+                        $scope.member =true ;
+                        $scope.currentMember = member ;
                     }
 
                     $scope.createBand = function() {
                         // création de données factices
-                        var data = { "name":"_groupe","city":"ville","abstract":"","style":[],"members":[] } ;  
+                        var data = {    
+                                        "name":"zzz_groupe",
+                                        "city":"ville",
+                                        "abstract":"lorem",
+                                        "contact":"contact",
+                                        "weblink":"web",
+                                        "facebook":"facebook",
+                                        "twitter":"twitter",
+                                        "google":"google",
+                                        "style":[],
+                                        "members":[] ,
+                                        "albums":[],
+                                        "announce":""
+                                    }; 
+                        
                                             
                         var res = $http.post('/bands/post', data);
                         res.success(function(data, status, headers, config) {
@@ -143,7 +173,10 @@
                             
                             ($scope.currentBand.style).push(tag.text);
                         });                   
-                                         
+                        
+
+                        console.log("CURRENT:",$scope.currentBand )
+
                         var res = $http.post('/bands/put', $scope.currentBand);
                         res.success(function(data, status, headers, config) {
                              console.log(data);

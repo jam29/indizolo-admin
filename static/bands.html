@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="col-md-6" ng-show="montreEdition">
-			<form ng-controller="uploadController">
+			<form>
 
 				<label class="control-label" for="inputTitle">Name</label>
 				<input type="text" class="form-control" ng-model="currentBand.name"  ng-change="change()" />
@@ -31,15 +31,64 @@
 				<label class="control-label" for="inputTitle">Abstract</label>
 				<textarea type="text" class="form-control" ng-model="currentBand.abstract"  ng-change="change()" /></textarea>
 				
-				<label class="control-label" for="inputTitle">Style</label> 
-				
+				<label class="control-label" for="inputTitle">Contact</label> 
+				<input type="text" class="form-control" ng-model="currentBand.contact" ng-change="change()" />
+				<label class="control-label" for="inputTitle">facebook</label> 
+				<input type="text" class="form-control" ng-model="currentBand.facebook" ng-change="change()" />
+				<label class="control-label" for="inputTitle">twitter</label> 
+				<input type="text" class="form-control" ng-model="currentBand.twitter" ng-change="change()" />
+				<label class="control-label" for="inputTitle">google+</label> 
+				<input type="text" class="form-control" ng-model="currentBand.google" ng-change="change()" />
+				<label class="control-label" for="inputTitle">site web / blog</label> 
+				<input type="text" class="form-control" ng-model="currentBand.google" ng-change="change()" />
+
 				<!--input type="text" class="form-control" ng-model="currentBand.style" ng-change="change()"/--> 
 
 				<!--js-tag js-tag-options="jsTagOptions" ></js-tag-->
 				<tags-input ng-model="tags"></tags-input>
- 				<!--p>Model: {{ tags }}</p-->
+ 				<!--p>Model: {{ tags }} </p-->
 
-<label class="control-label" for="inputTitle">Photo</label> 
+ 				<div class="memberItem" ng-repeat="member in currentBand.members" ng-click="setCurrentMember(member)">
+ 					<span class="glyphicon glyphicon-user"> </span> <span> {{ member.name }} play {{ member.instrument }} </span>
+ 				</div>
+
+ 				<div ng-show="member">
+ 					<label class="control-label" for="inputTitle">Nom</label> 
+ 					<input type="text" class="form-control" ng-model="currentMember.name"         >
+ 					<label class="control-label" for="inputTitle">Instrument principal</label> 
+ 					<input type="text" class="form-control" ng-model="currentMember.instrument"   >	
+ 				</div>
+
+				<div ng-show="album">
+ 					<label class="control-label" for="inputTitle">N_Série</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.serial_id"         >
+ 					<label class="control-label" for="inputTitle">Titre</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.title"   >	
+ 				</div>
+
+ 				<div class="btn_band" ng-init="disabled=false">
+					
+					<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
+						<span class="glyphicon glyphicon-save"></span>
+					</a>
+					
+					<a ng-show="poub" class="btn btn-primary" ng-click="addMember()">
+						<span class="glyphicon glyphicon-user"></span>
+					</a>
+
+					<a  class="btn btn-primary" ng-click="addAlbum()">
+						<span class="glyphicon glyphicon-cd"></span>
+					</a>
+					<a ng-show="poub" class="btn btn-danger" ng-click="deleteBand()">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a>
+				</div>
+
+ 			</form>
+
+
+ 			<form ng-controller="uploadController">
+			<label class="control-label" for="inputTitle">Photo</label> 
  			<input 
  			    class="form-control" 
                 title="choisir un fichier" 
@@ -61,29 +110,14 @@
             <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
             Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
             
-           <div class="btn_band" ng-init="disabled=true">
-            <button type="submit" class="btn btn-primary" ng-disabled="disabled" ng-click="submit()">submit</button>
-        </div>
-            <p>{{up.progress}}</p>
+           <!--div class="btn_band" ng-init="disabled=true"-->
+            <button type="submit" class="btn btn-primary" ng-click="submit()">envoyer l'image</button>
+           <!--/div-->
+           		</form>
 
 
+			
 
-
-				
-
-
-
-			<div class="btn_band" ng-init="disabled=true">
-
-				<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
-					<span class="glyphicon glyphicon-save"></span>
-				</a>
-				<a ng-show="poub" class="btn btn-danger" ng-click="deleteBand()">
-					<span class="glyphicon glyphicon-trash"></span>
-				</a>
-			</div>
-
-		</form>
 
 	</div>
 

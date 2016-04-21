@@ -90,13 +90,12 @@
                         $scope.disabled = false ;
                     }
 
-                    $scope.addMember = function(){
-                        
+                    $scope.addMember = function(){  
                         ($scope.currentBand.members).push({"name":"member", "instrument":"guitar"});
                     }
 
                     $scope.addAlbum = function(){
-                        $scope.album = true ;
+                        
                         ($scope.currentBand.albums).push({    
                                                              "serial_id":0000,
                                                              "title":"title",
@@ -133,6 +132,11 @@
                     $scope.setCurrentMember = function(member) {
                         $scope.member =true ;
                         $scope.currentMember = member ;
+                    }
+
+                     $scope.setCurrentAlbum = function(album) {
+                        $scope.album =true ;
+                        $scope.currentAlbum = album ;
                     }
 
                     $scope.createBand = function() {

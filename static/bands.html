@@ -5,10 +5,9 @@
 
 		<div class="listItem" ng-repeat="band in bands | orderBy: 'name' " ng-click="setCurrentBand(band)">
 			<!--span class="bandName">{{ $index }} : {{ band._id }}   </span-->
-			<span class="bandName">{{ band.name }}   </span>
+			<span class="bandName">{{ band.name }}</span>
 			<!--span class="bandCity"> {{ band.city } }   </span>
 			<span class="bandStyle">{{ band.style }}  </span-->
-
 			</div>
 
 			<div class="btn_band">
@@ -55,11 +54,9 @@
 				
 				<div class="albumItem" ng-repeat="album in currentBand.albums" ng-click="setCurrentAlbum(album)">
  					<span class="glyphicon glyphicon-cd"> </span> <span> {{ album.title }}</span>
- 				</div>
+ 				</div> 			
 
- 			
-
- 				<div class="btn_band" ng-init="disabled=false">
+ 				<div class="btn_band" ng-init="disabled=false"> 
 	
 					<a class="btn btn-primary" ng-disabled="disabled" ng-click="updateBand()">
 						<span class="glyphicon glyphicon-save"></span>
@@ -107,12 +104,8 @@
             <button type="submit" class="btn btn-primary" ng-click="submit()">envoyer l'image</button>
            <!--/div-->
            </form>
+</div>
 
-
-			
-
-
-	</div>
  <div class="col-md-4">
 
 		<div class="panel">{{ currentBand.name }}</div>
@@ -132,9 +125,9 @@
 		<div class="well" ng-show="album">
 			<h4><span class="label label-success">modification album</span></h3>
  					<label class="control-label" for="inputTitle">N_Série</label> 
- 					<input type="text" class="form-control" ng-model="currentAlbum.serial_id"         >
+ 					<input type="text" class="form-control" ng-model="currentAlbum.serial_id">
  					<label class="control-label" for="inputTitle">Titre</label> 
- 					<input type="text" class="form-control" ng-model="currentAlbum.title"   >	
+ 					<input type="text" class="form-control" ng-model="currentAlbum.title">	
  		</div>
 </div>
 </div>

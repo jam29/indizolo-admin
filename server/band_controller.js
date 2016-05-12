@@ -6,7 +6,7 @@ exports.getBands = function(req, res) {
   Band.find({})
   .exec(function(err, bands) {
     if (!bands){
-      res.json(404, {msg: 'Customer Not Found.'});
+      res.json(404, {msg: 'band(s) Not Found.'});
     } else {
       res.json(bands);
     }
@@ -14,6 +14,7 @@ exports.getBands = function(req, res) {
 };
 
 exports.createBand = function(req,res) {
+   console.log(req.body);
     var band = new Band({   
                             name:     req.body.name, 
                             city:     req.body.city, 
@@ -36,6 +37,7 @@ exports.createBand = function(req,res) {
 }
 
 exports.updateBand = function(req,res) {
+  console.log(req.body.albums);
    Band.update( { _id: req.body._id },
                 { $set:{
                             name:     req.body.name, 

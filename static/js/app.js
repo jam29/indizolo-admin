@@ -1,5 +1,3 @@
-
-
  // create the module and name it App
     var app = angular.module('bandApp', ['ngRoute','ngTagsInput','ngLodash','ngFileUpload']);
 
@@ -91,23 +89,21 @@
                     }
 
                     $scope.addMember = function(){  
-                        ($scope.currentBand.members).push({"name":"member", "instrument":"guitar"});
+                        ($scope.currentBand.members).push({"name":"member", "instrument":"instrument"});
                     }
 
                     $scope.addAlbum = function(){
-                        
+                       
                         ($scope.currentBand.albums).push({    
-                                                             "serial_id":0000,
+                                                             "serial_id":0001,
+                                                             "type":"CD",
                                                              "title":"title",
-                                                             "release_date":"",
-                                                             "price":"6,00",
+                                                             "release_date":new Date,
+                                                             "price":6.00,
                                                              "cover":"0000.jpg",
-                                                             "tracks":[{"title":"","duration":0.10}]
-                                                         });
+                                                             "tracks":[{ "title":"title1", duration:30 }]
+                                                         }); 
                     }
-
-
-                    
                  
                     $http.get('/bands/get')
                             .success(function(data, status, headers, config) {

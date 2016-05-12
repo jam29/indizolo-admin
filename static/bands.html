@@ -77,33 +77,6 @@
  			</form>
 
 
- 			<form ng-controller="uploadController">
-			<label class="control-label" for="inputTitle">Photo</label> 
- 			<input 
- 			    class="form-control" 
-                title="choisir un fichier" 
-                type="file" 
-                ngf-select 
-                ng-model="file" 
-                name="file" 
-                ngf-pattern="'image/*'"
-                accept="image/*" 
-                ngf-max-size="20MB" 
-                />
-
-            	<!--img style="width:100px;" ng-show="!!file" ngf-thumbnail="file || '/thumb.jpg'"/>
-            	<i ng-show="up.upload_form.file.$error.required">*required</i><br>
-            	<i ng-show="up.upload_form.file.$error.maxSize">File too large 
-            	{{up.file.size / 1000000|number:1}}MB: max 20M</i>
-            
-            	< Multiple files
-            	<div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
-            	Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
-            
-           		<!--div class="btn_band" ng-init="disabled=true"-->
-            <button type="submit" class="btn btn-primary" ng-click="submit()">envoyer l'image</button>
-           <!--/div-->
-           </form>
 </div>
 
  <div class="col-md-4">

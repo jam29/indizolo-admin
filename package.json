@@ -4,7 +4,7 @@
   "description": "breizh indie muzic for sell",
   "main": "index.js",
   "scripts": {
-    "start":"supervisor node server",
+    "start":"node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

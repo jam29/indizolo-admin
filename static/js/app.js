@@ -1,5 +1,5 @@
  // create the module and name it App
-    var app = angular.module('bandApp', ['ngRoute','ngTagsInput','ngLodash']);
+    var app = angular.module('bandApp', ['ngRoute','ngTagsInput','ngLodash',]);
 
     // configure our routes
     app.config(function($routeProvider) {

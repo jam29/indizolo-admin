@@ -20,26 +20,35 @@
 
 		<div class="col-md-4" ng-show="montreEdition">
 			<form>
-
-				<label class="control-label" for="inputTitle">Name</label>
+				<label class="control-label"  style="color:white" for="inputTitle">Name</label>
 				<input type="text" class="form-control" ng-model="currentBand.name"  ng-change="change()" />
 				
-				<label class="control-label" for="inputTitle">City</label>
+				<label class="control-label" style="color:white" for="inputTitle">City</label>
 				<input type="text" class="form-control" ng-model="currentBand.city"  ng-change="change()" />
 
-				<label class="control-label" for="inputTitle">Abstract</label>
+				<label class="control-label" style="color:white" for="inputTitle">Abstract</label>
 				<textarea type="text" class="form-control" ng-model="currentBand.abstract"  ng-change="change()" /></textarea>
 				
-				<label class="control-label" for="inputTitle">Contact</label> 
+				<label class="control-label" style="color:white" for="inputTitle">Contact</label> 
 				<input type="text" class="form-control" ng-model="currentBand.contact" 	ng-change="change()" />
-				<label class="control-label" for="inputTitle">facebook</label> 
+				
+				<label class="control-label"  style="color:white" for="inputTitle">facebook</label> 
 				<input type="text" class="form-control" ng-model="currentBand.facebook" ng-change="change()" />
+				
 				<label class="control-label" for="inputTitle">twitter</label> 
 				<input type="text" class="form-control" ng-model="currentBand.twitter" 	ng-change="change()" />
+				
 				<label class="control-label" for="inputTitle">google+</label> 
 				<input type="text" class="form-control" ng-model="currentBand.google" 	ng-change="change()" />
+				
 				<label class="control-label" for="inputTitle">site web / blog</label> 
-				<input type="text" class="form-control" ng-model="currentBand.google" 	ng-change="change()" />
+				<input type="text" class="form-control" ng-model="currentBand.weblink" 	ng-change="change()" />
+				
+				<label class="control-label" for="inputTitle">cover</label> 
+				<input type="text" class="form-control" ng-model="currentBand.cover" 	ng-change="change()" />
+				
+				<label class="control-label" for="inputTitle">video</label> 
+				<input type="text" class="form-control" ng-model="currentBand.video" 	ng-change="change()" />
 
 				<!--input type="text" class="form-control" ng-model="currentBand.style" ng-change="change()"/--> 
 
@@ -73,14 +82,10 @@
 						<span class="glyphicon glyphicon-trash"></span>
 					</a>
 				</div>
-
  			</form>
-
-
 </div>
 
  <div class="col-md-4">
-
 		<div class="panel">{{ currentBand.name }}</div>
 		<div class="panel">{{ currentBand.city }}</div>
 		<div class="panel" style="white-space:pre-line">{{ currentBand.abstract }}</div>
@@ -97,10 +102,18 @@
 
 		<div class="well" ng-show="album">
 			<h4><span class="label label-success">modification album</span></h3>
- 					<label class="control-label" for="inputTitle">N_Série</label> 
+ 					<label class="control-label" for="inputTitle">N° Série</label> 
  					<input type="text" class="form-control" ng-model="currentAlbum.serial_id">
  					<label class="control-label" for="inputTitle">Titre</label> 
  					<input type="text" class="form-control" ng-model="currentAlbum.title">	
+ 					<label class="control-label" for="inputTitle">Couverture</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.cover">	
+ 					<label class="control-label" for="inputTitle">Prix</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.price">	
+ 					<label class="control-label" for="inputTitle">Type(CD,album,...etc...)</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.type">	
+ 					<label class="control-label" for="inputTitle">Date de sortie</label> 
+ 					<input type="text" class="form-control" ng-model="currentAlbum.release_date">
  		</div>
 </div>
 </div>

@@ -4,7 +4,7 @@
   "description": "breizh indie muzic for sell",
   "main": "index.js",
   "scripts": {
-    "start":"node server",
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,11 +18,18 @@
   "author": "jam - openlab.ghost.io",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.6.4",
     "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "mongodb": "^2.1.7",
     "mongoose": "^4.4.4",
-    "multer": "^1.1.0"
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
+    "socket.io": "^1.4.8"
   }
 }

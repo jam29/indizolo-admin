@@ -1,5 +1,5 @@
  // create the module and name it App
-    var app = angular.module('bandApp', ['ngRoute','ngTagsInput','ngLodash',]);
+ var app = angular.module('indizoloApp', ['ngRoute','ngTagsInput','ngLodash','xeditable','ngFileUpload']);
 
     // configure our routes
     app.config(function($routeProvider) {
@@ -16,9 +16,19 @@
             // route for the bands
             .when('/bands',{
               templateUrl : 'static/bands.html',
-                controller  : 'bandsController'
+              controller  : 'bandsController'
 
-            })
+          })
+            .when('/carousel',{
+              templateUrl : 'static/carousel.html',
+              controller  : 'carouselController'
+
+          })
+            .when('/banners',{
+              templateUrl : 'static/banners.html',
+              controller  : 'bannersController'
+
+          })
             // route for the about page
             .when('/about', {
                 templateUrl : 'static/about.html',
@@ -28,137 +38,194 @@
             .when('/contact', {
                 templateUrl : 'static/contact.html',
                 controller  : 'contactController'
-            });
+            }).
+            otherwise({
+                    redirectTo: '/'
+                });
+            ;
+        });
+
+
+ app.run(function(editableOptions) {
+        editableOptions.theme = 'bs3'; // bootstrap3 theme.
     });
 
-    // create the controller and inject Angular's $scope
-    app.controller('mainController', function($scope) {
-        // create a message to display in our view
-        $scope.message = 'Everyone come and see how good I look!';
+    /* 
+        create the controller and inject Angular's $scope
+        app.controller('mainController', function($scope) {
+            // create a message to display in our view
+            $scope.message = 'Everyone come and see how good I look!';
+        });
+    */
 
-    });
-    
-
-    app.controller('uploadController',['Upload','$scope','$window',function(Upload,$scope,$window){
-        
-    // application jquery pour décorer le type input=file (idéalement créer une directive)
-    $(function() {
-        $('input[type=file]').bootstrapFileInput();
-    })
-
-
-        $scope.submit = function(){ //function to call on form submit
-         //   if ($scope.upload_form.file.$valid && $scope.file) { //check if from is valid
-             if ( $scope.file) { //check if from is valid
-                $scope.upload($scope.file); //call upload function
-            }
-        }
-        
-        $scope.upload = function (file) {
-            Upload.upload({
-                url: 'http://localhost:8080/upload', //webAPI exposed to upload the file
-                data:{file:file} //pass file as data, should be user ng-model
-            }).then(function (resp) { //upload function returns a promise
-                if(resp.data.error_code === 0){ //validate success
-                    $window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-                } else {
-                    $window.alert('an error occured');
-                }
-            }, function (resp) { //catch error
-                console.log('Error status: ' + resp.status);
-                $window.alert('Error status: ' + resp.status);
-            }, function (evt) { 
-                console.log(evt);
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-                $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
-            });
-        };
-    }]);
-
-
-    app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',
-              function($scope, $http , $filter, $window, lodash) {
-
-                $scope.poub = false ;
-                $scope.member = false ;
-                $scope.album = false ;
-
-                    $scope.change = function(){
-                        $scope.disabled = false ;
-                    }
-
-                    $scope.addMember = function(){  
-                        ($scope.currentBand.members).push({"name":"member", "instrument":"instrument"});
-                    }
-
-                    $scope.addAlbum = function(){
-                       
-                        ($scope.currentBand.albums).push({    
-                                                             "serial_id":0001,
-                                                             "type":"CD",
-                                                             "title":"title",
-                                                             "release_date":new Date,
-                                                             "price":6.00,
-                                                             "cover":"0000.jpg",
-                                                             "tracks":[{ "title":"title1", duration:30 }]
-                                                         }); 
-                    }
-                 
-                    $http.get('/bands/get')
-                            .success(function(data, status, headers, config) {
-                                $scope.bands = data;
-                            }).error(function(data, status, headers, config) {
-                                $window.alert('vide');
-                                $scope.bands = [];
+ app.controller('carouselController', ['$scope', '$http', '$filter','lodash','$window','$timeout','Upload',
+  function($scope, $http , $filter, $window, lodash, $timeout, Upload) {
+    $http.get('/carousel/get')
+    .success(function(data, status, headers, config) {
+        console.log("appjs success carousel")
+        $scope.carousel = data ;
+    }).error(function(data, status, headers, config) {
+                                // $window.alert('vide');
+                                $scope.carousel = [] ;
                             });
 
-                    $scope.setCurrentBand = function(band) {
 
-                        $scope.montreEdition = true ;
-                        $scope.tags = [];
-                        $scope.currentBand = band ; 
-                        _.map(  band.style  , function(o) { 
-                            $scope.tags.push( { "text":o } ) ;
-                        } ) ;
-                        
-                        $scope.poub = true ;
-                    }
 
-                    $scope.setCurrentMember = function(member) {
-                        $scope.member =true ;
-                        $scope.currentMember = member ;
-                    }
+    $scope.saveCarousel = function(carousel) {
+        return $http.post('carousel/put', carousel);
+    };
 
-                     $scope.setCurrentAlbum = function(album) {
-                        $scope.album =true ;
-                        $scope.currentAlbum = album ;
-                    }
+     $scope.upload = function (file) {
+        Upload.upload({
+            url: 'https://indizolo.s3.amazonaws.com/data.jpg?AWSAccessKeyId=AKIAJPVMMSLWWJYCLDUA&Expires=1475662623&Signature=tiFkLhRw6xer%2BSZDr%2F%2B2n1g3tE0%3D&x-amz-grant-full-control=Me',
+            data: {file: file },
+            method: 'PUT',
+            headers: {'Content-type':'img/jpg'}
+        }).then(function (resp) {
+            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
 
-                    $scope.createBand = function() {
+
+   /* 
+    $scope.submit = function() {
+      if ($scope.form.file.$valid && $scope.file) {
+            $scope.upload($scope.file);
+       }
+    };
+   */
+   /*
+   $scope.uploadPic = function(file) {
+       file.upload = Upload.upload({
+         url: 'https://indizobjects.cellar.services.clever-cloud.com/data2.jpg?AWSAccessKeyId=RCITZM0P-3E3TL7YURFD&Content-Type=img%2Fjpg&Expires=1475226292&Signature=HG%2FAbCZYsBDadlglPSCqLQuP9gU%3D',
+         //data: {username: $scope.username, file: file},
+         data: { file: file } ,
+         method: 'PUT',
+         headers: {'Content-type':'img/jpg'}
+     });
+   
+   /*
+       file.upload.then(function (response) {
+         $timeout(
+            function () { file.result = response.data; }
+         );
+        } , function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+         // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+    
+
+   } // fin uploadPic  
+} */
+   }]) // fin controller
+
+
+
+ app.controller('bannersController', ['$scope', '$http', '$filter','lodash','$window',
+  function($scope, $http , $filter, $window, lodash) {
+    $http.get('/banners/get')
+    .success(function(data, status, headers, config) {
+        $scope.banners = data;
+        console.log("appjs success banner",new Date)
+    }).error(function(data, status, headers, config) {
+                                //$window.alert('vide');
+                                $scope.banners = [];
+                            });
+
+    $scope.saveBanner = function(banner) {
+        return $http.post('banners/put', banner);
+    };
+}])
+
+ app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',
+  function($scope, $http , $filter, $window, lodash) {
+
+    $scope.poub = false ;
+    $scope.member = false ;
+    $scope.album = false ;
+
+    $scope.change = function(){
+        $scope.disabled = false ;
+    }
+
+    $scope.addMember = function(){  
+        ($scope.currentBand.members).push({"name":"member", "instrument":"instrument" });
+    }
+
+    $scope.addAlbum = function(){
+        ($scope.currentBand.albums).push({    
+            "serial_id":0001,
+            "type":"CD",
+            "title":"title",
+            "release_date":new Date,
+            "price":6.00,
+            "cover":"0000.jpg",
+            "tracks":[{ "title":"title1", duration:30 }]
+        }); 
+    }   
+
+    $http.get('/bands/get')
+    .success(function(data, status, headers, config) {
+        $scope.bands = data;
+    }).error(function(data, status, headers, config) {
+        $scope.bands = [];
+    });
+
+    $scope.setCurrentBand = function(band) {
+
+        $scope.montreEdition = true ;
+        $scope.tags = [];
+        $scope.currentBand = band ; 
+        _.map(  band.style  , function(o) { 
+            $scope.tags.push( { "text":o } ) ;
+        } ) ;
+
+        $scope.poub = true ;
+    }
+
+    $scope.setCurrentMember = function(member) {
+        $scope.member =true ;
+        $scope.currentMember = member ;
+    }
+
+    $scope.setCurrentAlbum = function(album) {
+        $scope.album =true ;
+        $scope.currentAlbum = album ;
+    }
+
+    $scope.createBand = function() {
                         // création de données factices
                         var data = {    
-                                        "name":"zzz_groupe",
-                                        "city":"ville",
-                                        "abstract":"lorem",
-                                        "contact":"contact",
-                                        "weblink":"web",
-                                        "facebook":"facebook",
-                                        "twitter":"twitter",
-                                        "google":"google",
-                                        "style":[],
-                                        "members":[] ,
-                                        "albums":[],
-                                        "announce":""
-                                    }; 
+                            "name":"zzz_groupe",
+                            "city":"ville",
+                            "abstract":"lorem",
+                            "contact":"contact",
+                            "weblink":"web",
+                            "facebook":"facebook",
+                            "twitter":"twitter",
+                            "google":"google",
+                            "style":[],
+                            "members":[] ,
+                            "albums":[],
+                            "announce":""
+                        }; 
                         
-                                            
+
                         var res = $http.post('/bands/post', data);
                         res.success(function(data, status, headers, config) {
                             //console.log(data);
                             $scope.bands.push(data) 
                             //$scope.message = data;
                         });
+                        
                         res.error(function(data, status, headers, config) {
                             alert( "failure message: " + JSON.stringify({data: data}));
                         });
@@ -180,8 +247,8 @@
 
                         var res = $http.post('/bands/put', $scope.currentBand);
                         res.success(function(data, status, headers, config) {
-                             console.log(data);
-                        });
+                         console.log(data);
+                     });
                         res.error(function(data, status, headers, config) {
                             alert( "failure message: " + JSON.stringify({data: data}));
                         });
@@ -204,16 +271,17 @@
 
                 }]);
 
-   app.controller('homeController', function($scope) {
-        $scope.message = 'WELCOME';
-    });
+ app.controller('homeController', function($scope) {
+    $scope.message = 'WELCOME';
+});
 
-    app.controller('aboutController', function($scope) {
-        $scope.message = 'Hello dudees i am about';
-    });
+ app.controller('aboutController', function($scope) {
+    $scope.message = 'Hello dudees i am about';
+});
 
-    app.controller('contactController', function($scope) {
-        $scope.message = 'Hello dudees i am contact';
-    });
+ app.controller('contactController', function($scope) {
+    $scope.message = 'Hello dudees i am contact';
+});
 
-                
+
+

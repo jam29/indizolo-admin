@@ -1,0 +1,15 @@
+
+body    				{ background-color:black ;}
+h1,h2,h3,h4,h5 ,span       	{color:white;}  
+.indizolo-font-white 	{ color: white ; }
+.indizolo-font-red 		{ color: #A9050E ; }
+.indizolo-back-black    { background-color: black}
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 5px;
+  width: auto;
+}
+

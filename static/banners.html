@@ -1,0 +1,59 @@
+<h3>Banners</h3>
+<div class="row" id="bannerContainer">
+
+	<div class="col-md-2" ></div>
+	<!--div class="col-md-8" ng-controller="bannersController"-->
+	<div class="col-md-8" >
+		<table class="table table-condensed" >
+			<tr>
+					<th>flyer</th>
+					<th>titre</th>
+					<th>abstract</th>
+					<th>date</th>
+					<th>edit</th>
+				</tr>
+			<tr ng-repeat="banner in banners">
+				
+				<td><img src={{ banner.flyer }} width="100px" /></td>
+				<td><span editable-text="banner.title" 		e-form="rowform" e-required > {{ banner.flyer ||  empty }}</span></td>
+				<td><span editable-text="banner.title" 		e-form="rowform" e-required > {{ banner.title ||  empty }}</span></td>
+				<td><span editable-text="banner.abstract" 	e-form="rowform" e-required > {{ banner.abstract ||  empty }}</span></td>
+				<td><span editable-text="banner.date" 		e-form="rowform" e-required > {{ banner.date ||  empty }} </span></td>
+				<td style="white-space: nowrap">
+					<!-- form -->	
+					<form editable-form name="rowform" onaftersave="saveBanner(banner)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == banner">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+							save
+						</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+							cancel
+						</button>
+					</form>
+
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+						<button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+					</div>  
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-2" ></div>
+
+
+<div class="row">
+Upload on form submit or button click
+	<form ng-app="fileUpload" ng-controller="MyCtrl" name="form">
+  Single Image with validations
+  		<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+    ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
+    ngf-resize="{width: 100, height: 100}">Select</div>
+  			Multiple files
+  		<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+  				Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>
+  		<button type="submit" ng-click="submit()">submit</button>
+	</form>
+</div>
+
+
+</div>

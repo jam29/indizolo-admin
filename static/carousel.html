@@ -1,0 +1,42 @@
+
+<h3>Carousel</h3>
+<div class="row"  >
+
+	<div class="col-md-2" ></div>
+	<div class="col-md-8" >
+
+		<table class="table table-condensed" >
+			<tr>
+				<th>image</th>
+				<th>image url</th>
+				<th>titre</th>
+				<th>url</th>
+			</tr>
+			<tr ng-repeat="car in carousel">
+				
+				<td><img src="{{ car.image }}" width="100px" ></td>
+				<td><span editable-text="car.image" e-form="rowform" e-required > {{ car.image ||  empty }}</span></td>
+				<td><span editable-text="car.title" e-form="rowform" e-required > {{ car.title ||  empty }}</span></td>
+				<td><span editable-text="car.url" 	e-form="rowform" e-required > {{ car.url ||  empty }}</span></td>
+				<td style="white-space: nowrap">
+					<!-- form -->	
+					<form editable-form name="rowform" onaftersave="saveCarousel(car)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == car">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+							save
+						</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+							cancel
+						</button>
+					</form>
+
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+						<button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+					</div>  
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-2" ></div>
+</div>
+

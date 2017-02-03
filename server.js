@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
 });
 
 
- //var db = mongoose.connect('mongodb://localhost/indizolo');
+ //var db = mongoose.connect('mongodb://umqnqzlxdvsudat:C1Sy5EFDLleRYiEGEixr@bsrhghbr5gqng0h-mongodb.services.clever-cloud.com:27017/bsrhghbr5gqng0h');
  var db = mongoose.connect('mongodb://u8ldqkwpnavntsq:8IMMDQTaqQBUxgxs0l8h@bpksbgdhgo0jj10-mongodb.services.clever-cloud.com:27017/bpksbgdhgo0jj10');
 
 require('./server/models.js');

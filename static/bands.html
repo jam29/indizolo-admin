@@ -93,15 +93,38 @@
 		<div style="margin-bottom:20px"><span class="label label-danger" style="margin-right:5px" ng-repeat="tag in currentBand.style">#{{ tag }}</span></div>
 
 		<div class="well" ng-show="member">
-			<h4><span class="label label-success">modification membre</span></h3>
+			<h4><span class="label label-success">modification membre</span></h4>
  					<label class="control-label" for="inputTitle">Nom</label> 
  					<input type="text" class="form-control" ng-model="currentMember.name"         >
  					<label class="control-label" for="inputTitle">Instrument principal</label> 
  					<input type="text" class="form-control" ng-model="currentMember.instrument"   >	
+ 					<label class="control-label" for="inputTitle">Autre(s) groupe</label> 
+ 					
+ 					<angucomplete id="ex1"
+              				placeholder="recherche groupes"
+              				pause="100"
+              				selectedobject="selectedBand"
+              				localdata="bands"
+              				searchfields="name"
+              				titlefield="name"
+              				minlength="1"
+              				inputclass="form-control form-control-small"
+              				matchclass="highlight" ></angucomplete>
+ 					
+ 					
+ 					<div class="" ng-show="selectedBand">
+ 						You selected {{ selectedBand.originalObject._id }}
+ 					
+ 					
+ 					<a class="btn btn-primary" ng-click="addLink(selectedBand.originalObject._id)">
+						<span class="glyphicon glyphicon-plus"></span>
+					</a> 	
+
+					</div>				
  		</div>
 
 		<div class="well" ng-show="album">
-			<h4><span class="label label-success">modification album</span></h3>
+			<h4><span class="label label-success">Modification album</span></h4>
  					<label class="control-label" for="inputTitle">N° Série</label> 
  					<input type="text" class="form-control" ng-model="currentAlbum.serial_id">
  					<label class="control-label" for="inputTitle">Titre</label> 

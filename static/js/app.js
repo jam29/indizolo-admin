@@ -1,5 +1,5 @@
  // create the module and name it App
- var app = angular.module('indizoloApp', ['ngRoute','ngTagsInput','ngLodash','xeditable','ngFileUpload']);
+ var app = angular.module('indizoloApp', ['ngRoute','ngTagsInput','ngLodash','xeditable','angucomplete']);
 
     // configure our routes
     app.config(function($routeProvider) {
@@ -38,11 +38,14 @@
             .when('/contact', {
                 templateUrl : 'static/contact.html',
                 controller  : 'contactController'
-            }).
-            otherwise({
+            })
+            .when('/logout',{
+                controller: 'logoutController'
+            })
+            .otherwise({
                     redirectTo: '/'
-                });
-            ;
+            });
+
         });
 
 
@@ -58,8 +61,14 @@
         });
     */
 
- app.controller('carouselController', ['$scope', '$http', '$filter','lodash','$window','$timeout','Upload',
-  function($scope, $http , $filter, $window, lodash, $timeout, Upload) {
+    app.controller('logoutController',['$scope','$http',
+    function($scope,$http) {
+        $http.get('/logout');
+        }
+    ]);
+
+    app.controller('carouselController', ['$scope', '$http', '$filter','lodash','$window','$timeout',
+    function($scope, $http , $filter, $window, lodash, $timeout, Upload) {
     $http.get('/carousel/get')
     .success(function(data, status, headers, config) {
         console.log("appjs success carousel")
@@ -75,56 +84,36 @@
         return $http.post('carousel/put', carousel);
     };
 
-     $scope.upload = function (file) {
-        Upload.upload({
-            url: 'https://indizolo.s3.amazonaws.com/data.jpg?AWSAccessKeyId=AKIAJPVMMSLWWJYCLDUA&Expires=1475662623&Signature=tiFkLhRw6xer%2BSZDr%2F%2B2n1g3tE0%3D&x-amz-grant-full-control=Me',
-            data: {file: file },
-            method: 'PUT',
-            headers: {'Content-type':'img/jpg'}
-        }).then(function (resp) {
-            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        });
-    };
+    $scope.addCarousel = function() {
 
+        var data = { "image" : "http://imageshack.com/a/img921/1337/MoQOQp.png " , "title" : "texte" , "url" : "http" };
 
-   /* 
-    $scope.submit = function() {
-      if ($scope.form.file.$valid && $scope.file) {
-            $scope.upload($scope.file);
-       }
-    };
-   */
-   /*
-   $scope.uploadPic = function(file) {
-       file.upload = Upload.upload({
-         url: 'https://indizobjects.cellar.services.clever-cloud.com/data2.jpg?AWSAccessKeyId=RCITZM0P-3E3TL7YURFD&Content-Type=img%2Fjpg&Expires=1475226292&Signature=HG%2FAbCZYsBDadlglPSCqLQuP9gU%3D',
-         //data: {username: $scope.username, file: file},
-         data: { file: file } ,
-         method: 'PUT',
-         headers: {'Content-type':'img/jpg'}
-     });
-   
-   /*
-       file.upload.then(function (response) {
-         $timeout(
-            function () { file.result = response.data; }
-         );
-        } , function (response) {
-            if (response.status > 0)
-                $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-         // Math.min is to fix IE which reports 200% sometimes
-            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-    
+        var res = $http.post('/carousel/post', data);
+                        res.success(function(data, status, headers, config) {
+                            //console.log(data);
+                            $scope.carousel.push(data) 
+                            //$scope.message = data;
+                        });
+                        
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });    
+    }
 
-   } // fin uploadPic  
-} */
+$scope.deleteCarousel = function(car) {
+    console.log( "CAR_ID", car._id );
+        var res = $http.post('/carousel/delete', { id: car._id } );
+                        res.success(function(data, status, headers, config) {
+                            
+                            $scope.carousel = $filter('filter')($scope.carousel, { _id: '!'+car._id })
+                            //$scope.message = data;
+                        });
+                        
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });    
+    }
+  
    }]) // fin controller
 
 
@@ -146,18 +135,23 @@
 }])
 
  app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',
-  function($scope, $http , $filter, $window, lodash) {
+  function($scope, $http , $filter, $window, lodash ) {
 
-    $scope.poub = false ;
+    $scope.poub   = false ;
     $scope.member = false ;
-    $scope.album = false ;
+    $scope.album  = false ;
+
+
+    $scope.addLink = function(id) {
+            $scope.currentMember.autres_groupes.push(id)
+    }
 
     $scope.change = function(){
         $scope.disabled = false ;
     }
 
     $scope.addMember = function(){  
-        ($scope.currentBand.members).push({"name":"member", "instrument":"instrument" });
+        ($scope.currentBand.members).push({"name":"member", "instrument":"instrument","autres_groupes":[] });
     }
 
     $scope.addAlbum = function(){
@@ -231,8 +225,8 @@
                         });
                     }
 
-                    $scope.updateBand = function() {
-                        $scope.disabled = true ;
+     $scope.updateBand = function() {
+                        // $scope.disabled = true ;
                         // création de données factices
                         // var data = { "name":"nom du groupe","city":"ville","style":"punk" } ; 
                         $scope.currentBand.style = [] ; 
@@ -255,7 +249,7 @@
                     }
 
 
-                    $scope.deleteBand = function() {
+    $scope.deleteBand = function() {
                         $scope.disabled = true ;                     
                         
                         var res = $http.post('/bands/delete', $scope.currentBand);
@@ -269,7 +263,7 @@
                         });
                     }
 
-                }]);
+    }]);
 
  app.controller('homeController', function($scope) {
     $scope.message = 'WELCOME';

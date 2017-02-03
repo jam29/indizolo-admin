@@ -7,6 +7,7 @@
 		<table class="table table-condensed" >
 			<tr>
 					<th>flyer</th>
+					<th>flyer url</th>
 					<th>titre</th>
 					<th>abstract</th>
 					<th>date</th>
@@ -14,8 +15,8 @@
 				</tr>
 			<tr ng-repeat="banner in banners">
 				
-				<td><img src={{ banner.flyer }} width="100px" /></td>
-				<td><span editable-text="banner.title" 		e-form="rowform" e-required > {{ banner.flyer ||  empty }}</span></td>
+				<td><img src="{{ banner.flyer }}" width="100px" /></td>
+				<td><span editable-text="banner.flyer" 		e-form="rowform" e-required > {{ banner.flyer ||  empty }}</span></td>
 				<td><span editable-text="banner.title" 		e-form="rowform" e-required > {{ banner.title ||  empty }}</span></td>
 				<td><span editable-text="banner.abstract" 	e-form="rowform" e-required > {{ banner.abstract ||  empty }}</span></td>
 				<td><span editable-text="banner.date" 		e-form="rowform" e-required > {{ banner.date ||  empty }} </span></td>
@@ -39,21 +40,6 @@
 		</table>
 	</div>
 	<div class="col-md-2" ></div>
-
-
-<div class="row">
-Upload on form submit or button click
-	<form ng-app="fileUpload" ng-controller="MyCtrl" name="form">
-  Single Image with validations
-  		<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
-    ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
-    ngf-resize="{width: 100, height: 100}">Select</div>
-  			Multiple files
-  		<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
-  				Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>
-  		<button type="submit" ng-click="submit()">submit</button>
-	</form>
-</div>
 
 
 </div>

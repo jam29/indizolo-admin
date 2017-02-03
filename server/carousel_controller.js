@@ -19,6 +19,31 @@ exports.getCarousel = function(req, res) {
 
 }
 
+exports.addCarousel = function(req,res) {
+  console.log("server/carousel_controller.js:addCarousel")
+  var carousel = new Carousel({   
+                            image:     req.body.image, 
+                            titre:     req.body.titre, 
+                            url: req.body.url                       
+                        })
+
+   carousel.save(function (err) {
+    if (err) return handleError(err);
+    res.json(carousel)
+  });
+}
+
+
+exports.deleteCarousel = function(req,res) {
+  console.log("server/carousel_controller.js:deleteCarousel");
+
+  Carousel.remove( { _id: req.body.id }, function(err){ 
+      if (err) 
+        { res.json(404, {msg: 'Failed to update band.'}); }
+      else
+        {res.json({msg:'deleted'})}
+  })
+}
 
 /*
 

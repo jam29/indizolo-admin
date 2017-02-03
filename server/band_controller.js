@@ -48,7 +48,7 @@ exports.getOne = function(req, res) {
 }
 
 exports.createBand = function(req,res) {
-   console.log(req.body);
+  // console.log(req.body);
     var band = new Band({   
                             name:     req.body.name, 
                             city:     req.body.city, 

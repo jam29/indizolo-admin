@@ -21,13 +21,8 @@ app.use(function(req, res, next) {
 });
 
 
-var AWS = require('aws-sdk');
-AWS.config.update({accessKeyId: 'RCITZM0P-3E3TL7YURFD', secretAccessKey: 'PPHUQ9PpZf0HcFCBEXQ2W1px4r25inGyf7Ey4g=='});
-var ep = new AWS.Endpoint('cellar.services.clever-cloud.com');
-var s3 = new AWS.S3({ endpoint: ep, signatureVersion: 'v2'});
-
-var db = mongoose.connect('mongodb://localhost/indizolo');
-// var db = mongoose.connect('mongodb://u8ldqkwpnavntsq:8IMMDQTaqQBUxgxs0l8h@bpksbgdhgo0jj10-mongodb.services.clever-cloud.com:27017/bpksbgdhgo0jj10');
+ //var db = mongoose.connect('mongodb://localhost/indizolo');
+ var db = mongoose.connect('mongodb://u8ldqkwpnavntsq:8IMMDQTaqQBUxgxs0l8h@bpksbgdhgo0jj10-mongodb.services.clever-cloud.com:27017/bpksbgdhgo0jj10');
 
 require('./server/models.js');
 require('./server/user.js');
@@ -88,7 +83,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
 
     function ensureAuthenticated(req,res,next) {
-        console.log("USER:",req.user);
+        console.log("session:",req.session);
         if (req.isAuthenticated()) {
             next();
         } else {
@@ -102,29 +97,30 @@ passport.use(new LocalStrategy(function(username, password, done) {
   var banners   =   require('./server/banner_controller');
   var carousel  =   require('./server/carousel_controller');
 
- /* app.get('/', function(req, res) {res.redirect('/index'); }); */
- 
-  app.get('/', function(req, res) {res.render('index'); });   
+ app.get('/', ensureAuthenticated ,function(req, res) { res.redirect('/index'); }); 
+ app.get('/index', ensureAuthenticated ,function(req, res) { 
+  console.log ("USER:",req.user)
+  console.log ("USERNAME:",req.user.username)
+  console.log ("PASSWORD:",req.user.password)
+  res.render('index'); }); 
 
-  app.get  ('/bands/get'     ,          bands.getBands   ) ;  
-  app.get  ('/bands/getOne/:id' ,       bands.getOne     ) ;
-  app.post ('/bands/post'   ,           bands.createBand ) ; 
-  app.post ('/bands/put'    ,           bands.updateBand ) ; 
-  app.post ('/bands/delete' ,           bands.deleteBand ) ; 
-  app.get  ('/bands/liste/:searchText', bands.searchBands) ;
+ // app.get('/', function(req, res) {res.render('index'); });   
+
+  app.get  ('/bands/get' , bands.getBands ) ;  
+  app.get  ('/bands/getOne/:id' , bands.getOne ) ;
+  app.post ('/bands/post'   , ensureAuthenticated , bands.createBand  ) ; 
+  app.post ('/bands/put'    , ensureAuthenticated ,       bands.updateBand  ) ; 
+  app.post ('/bands/delete' , ensureAuthenticated ,       bands.deleteBand  ) ; 
+  app.get  ('/bands/liste/:searchText',  bands.searchBands ) ;
 
   app.get('/banners/get'   ,  banners.getBanners ) ;
   app.post('/banners/put'  ,  banners.updateBanners ) ;  
 
-  app.get('/carousel/get'  ,  carousel.getCarousel ) ;
-  app.post('/carousel/put' ,  carousel.updateCarousel ) ;  
-
-  app.post('/getSignedUrl', function(req,res) {
-        var params = {Bucket: 'indizobjects', Key: req.filename };
-        s3.getSignedUrl('putObject', params, function (err, url) {
-          console.log("The URL is", url);
-        });
-  });
+  app.get('/carousel/get'  ,   carousel.getCarousel ) ;
+  app.post('/carousel/put' ,   carousel.updateCarousel ) ;  
+  app.post('/carousel/post' ,  carousel.addCarousel ) ; 
+  // app.post ('/carousel/delete' , ensureAuthenticated , carousel.deleteCarousel  ) ;  
+  app.post ('/carousel/delete' , ensureAuthenticated , carousel.deleteCarousel ) ;  
 
   app.get('/login', function(req, res) {   
     if (req.isAuthenticated()) { console.log ("ALREADY AUTH",req.user) ; return }
@@ -134,9 +130,9 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 
   app.get('/logout', function(req, res) {
-    req.session.destroy()
-    req.logout()
-    res.redirect('/')
+    console.log("logout",req.session)
+    req.session.destroy();
+    req.logout();
   });
 
 

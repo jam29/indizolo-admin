@@ -4,7 +4,7 @@
 
 	<div class="col-md-2" ></div>
 	<div class="col-md-8" >
-
+	<button class="btn btn-primary" ng-click="addCarousel()">add</button>
 		<table class="table table-condensed" >
 			<tr>
 				<th>image</th>
@@ -17,7 +17,7 @@
 				<td><img src="{{ car.image }}" width="100px" ></td>
 				<td><span editable-text="car.image" e-form="rowform" e-required > {{ car.image ||  empty }}</span></td>
 				<td><span editable-text="car.title" e-form="rowform" e-required > {{ car.title ||  empty }}</span></td>
-				<td><span editable-text="car.url" 	e-form="rowform" e-required > {{ car.url ||  empty }}</span></td>
+				<!--td><span editable-text="car.url" 	e-form="rowform" e-required > {{ car.url ||  empty }}</span></td-->
 				<td style="white-space: nowrap">
 					<!-- form -->	
 					<form editable-form name="rowform" onaftersave="saveCarousel(car)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == car">
@@ -31,7 +31,7 @@
 
 					<div class="buttons" ng-show="!rowform.$visible">
 						<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-						<button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+						<button class="btn btn-danger" ng-click="deleteCarousel(car)">del</button>
 					</div>  
 				</td>
 			</tr>

@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 var MemberSchema = new Schema({
   	name: String ,
 	  instrument: String,
-    autres_groupes: [String]
+    autres_groupes: [{ type: Schema.Types.ObjectId, ref: 'Band' }]
 });
 
 var typesAlbum = 'CD VINYL K7 MP3'.split(' ');

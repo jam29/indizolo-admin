@@ -100,6 +100,7 @@
                         });    
     }
 
+
 $scope.deleteCarousel = function(car) {
     console.log( "CAR_ID", car._id );
         var res = $http.post('/carousel/delete', { id: car._id } );
@@ -132,6 +133,25 @@ $scope.deleteCarousel = function(car) {
     $scope.saveBanner = function(banner) {
         return $http.post('banners/put', banner);
     };
+
+$scope.addBanner = function() {
+
+        var data = { "flyer" : "http://imageshack.com/a/img923/9528/iBD1Ci.png" , "title" : "texte" , "date" : "01/01/2017", "abstract":"annonce" };
+
+        var res = $http.post('/banners/post', data);
+                        res.success(function(data, status, headers, config) {
+                            //console.log(data);
+                            $scope.banners.push(data) 
+                            //$scope.message = data;
+                        });
+                        
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });    
+    }
+    
+
+
 }])
 
  app.controller('bandsController', ['$scope', '$http', '$filter','lodash','$window',

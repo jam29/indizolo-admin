@@ -114,6 +114,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
   app.get  ('/bands/liste/:searchText',  bands.searchBands ) ;
 
   app.get('/banners/get'   ,  banners.getBanners ) ;
+    app.post('/banners/post'  ,  banners.addBanner ) ;
   app.post('/banners/put'  ,  banners.updateBanners ) ;  
 
   app.get('/carousel/get'  ,   carousel.getCarousel ) ;

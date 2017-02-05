@@ -16,6 +16,20 @@ exports.getBanners = function(req, res) {
   });
 }
 
+exports.addBanner = function(req,res) {
+  console.log("server/carousel_controller.js:addBanner");
+  var banner = new Banner({   
+                            title:req.body.title,
+                            flyer:req.body.flyer,
+                            date: req.body.date,
+                            abstract: req.body.abstract
+                        })
+
+   banner.save(function (err) {
+    if (err) return handleError(err);
+    res.json(banner)
+  });
+}
 
 /*
 exports.createBand = function(req,res) {

@@ -93,7 +93,10 @@
 		<div style="margin-bottom:20px"><span class="label label-danger" style="margin-right:5px" ng-repeat="tag in currentBand.style">#{{ tag }}</span></div>
 
 		<div class="well" ng-show="member">
-			<h4><span class="label label-success">modification membre</span></h4>
+			<h4><span class="label label-success">modification membre</span> <a class="btn btn-danger" ng-click="deleteMember(currentMember._id)">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a> </h4>
+			      
  					<label class="control-label" for="inputTitle">Nom</label> 
  					<input type="text" class="form-control" ng-model="currentMember.name"         >
  					<label class="control-label" for="inputTitle">Instrument principal</label> 
@@ -110,7 +113,9 @@
               				minlength="1"
               				inputclass="form-control form-control-small"
               				matchclass="highlight" ></angucomplete>
+
  					
+
  					
  					<div class="" ng-show="selectedBand">
  						You selected {{ selectedBand.originalObject._id }}
@@ -124,7 +129,10 @@
  		</div>
 
 		<div class="well" ng-show="album">
-			<h4><span class="label label-success">Modification album</span></h4>
+			<h4><span class="label label-success">Modification album</span>
+				<a class="btn btn-danger" ng-click="deleteAlbum(currentAlbum._id)">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a> </h4>
  					<label class="control-label" for="inputTitle">N° Série</label> 
  					<input type="text" class="form-control" ng-model="currentAlbum.serial_id">
  					<label class="control-label" for="inputTitle">Titre</label> 

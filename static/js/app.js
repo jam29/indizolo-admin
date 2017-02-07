@@ -162,6 +162,7 @@ $scope.addBanner = function() {
     $scope.album  = false ;
 
 
+
     $scope.addLink = function(id) {
             $scope.currentMember.autres_groupes.push(id)
     }
@@ -172,6 +173,20 @@ $scope.addBanner = function() {
 
     $scope.addMember = function(){  
         ($scope.currentBand.members).push({"name":"member", "instrument":"instrument","autres_groupes":[] });
+    }
+
+    $scope.deleteMember = function(id){
+        //($scope.currentMember)
+        console.log(id)
+         $scope.currentBand.members = $filter('filter')($scope.currentBand.members, { _id: '!'+id })
+         console.log($scope.currentBand.members)
+    }
+
+    $scope.deleteAlbum = function(id){
+        //($scope.currentMember)
+        //console.log(id)
+         $scope.currentBand.albums = $filter('filter')($scope.currentBand.albums, { _id: '!'+id })
+         //console.log($scope.currentBand.members)
     }
 
     $scope.addAlbum = function(){

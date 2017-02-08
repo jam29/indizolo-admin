@@ -93,7 +93,7 @@
 		<div style="margin-bottom:20px"><span class="label label-danger" style="margin-right:5px" ng-repeat="tag in currentBand.style">#{{ tag }}</span></div>
 
 		<div class="well" ng-show="member">
-			<h4><span class="label label-success">modification membre</span> <a class="btn btn-danger" ng-click="deleteMember(currentMember._id)">
+			<h4><span class="label label-success">modification membre</span> <a class="btn btn-sm btn-danger" ng-click="deleteMember(currentMember._id)">
 						<span class="glyphicon glyphicon-trash"></span>
 					</a> </h4>
 			      
@@ -101,7 +101,11 @@
  					<input type="text" class="form-control" ng-model="currentMember.name"         >
  					<label class="control-label" for="inputTitle">Instrument principal</label> 
  					<input type="text" class="form-control" ng-model="currentMember.instrument"   >	
- 					<label class="control-label" for="inputTitle">Autre(s) groupe</label> 
+ 					<label class="control-label" for="inputTitle">Aussi membre de</label> 
+ 					<div ng-repeat="other in currentMember.affiche_autres_groupes" >
+						{{ other.name }} <a class="btn btn-primary" ng-click="deleteAg(other.id)">X</a>
+					</div>
+ 					<label class="control-label" for="inputTitle">Autre groupe</label> 
  					
  					<angucomplete id="ex1"
               				placeholder="recherche groupes"
@@ -112,15 +116,11 @@
               				titlefield="name"
               				minlength="1"
               				inputclass="form-control form-control-small"
-              				matchclass="highlight" ></angucomplete>
-
- 					
-
+              				matchclass="highlight" >
+              		</angucomplete>
  					
  					<div class="" ng-show="selectedBand">
- 						You selected {{ selectedBand.originalObject._id }}
- 					
- 					
+ 						You selected {{ selectedBand.originalObject.name }}
  					<a class="btn btn-primary" ng-click="addLink(selectedBand.originalObject._id)">
 						<span class="glyphicon glyphicon-plus"></span>
 					</a> 	

@@ -167,6 +167,15 @@ $scope.addBanner = function() {
             $scope.currentMember.autres_groupes.push(id)
     }
 
+    $scope.deleteAg = function(id) {
+            $scope.currentMember.autres_groupes = $scope.currentMember.autres_groupes.filter(function(el){ 
+                    return ( el != id )
+            })
+            $scope.currentMember.affiche_autres_groupes = $scope.currentMember.affiche_autres_groupes.filter(function(el){ 
+                    return ( el.id != id )
+            })
+    }
+
     $scope.change = function(){
         $scope.disabled = false ;
     }
@@ -216,14 +225,23 @@ $scope.addBanner = function() {
         _.map(  band.style  , function(o) { 
             $scope.tags.push( { "text":o } ) ;
         } ) ;
-
         $scope.poub = true ;
     }
 
     $scope.setCurrentMember = function(member) {
         $scope.member =true ;
         $scope.currentMember = member ;
+        $scope.currentMember.affiche_autres_groupes = []
+         _.map (member.autres_groupes,function(m) {
+                var a_g = $http.get("/bands/getOne/"+m).success(function(data, status, headers, config) {
+                    console.log("AG:",data);
+                    $scope.currentMember.affiche_autres_groupes.push({"id":data._id,"name":data.name})
+                })
+        })
     }
+
+
+
 
     $scope.setCurrentAlbum = function(album) {
         $scope.album =true ;
@@ -235,7 +253,7 @@ $scope.addBanner = function() {
                         var data = {    
                             "name":"zzz_groupe",
                             "city":"ville",
-                            "abstract":"lorem",
+                            "abstract":"Ce groupe n'a pas (encore) de page IndiZolo. Il a été mentionné sur la page d'un autre groupe.",
                             "contact":"contact",
                             "weblink":"web",
                             "facebook":"facebook",

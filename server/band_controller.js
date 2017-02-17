@@ -32,11 +32,9 @@ exports.searchBands = function(req, res) {
 
 }
 
-
 exports.getOne = function(req, res) {
   console.log("server/band_controller.js: getOne",req.params)   
     Band.findById(req.params.id)
-    .populate('autres_groupes')
     .exec(function(err, band) {
           console.log("THE ONE BAND",band)
     if (!band){
@@ -46,7 +44,6 @@ exports.getOne = function(req, res) {
     }
   });
 }
-
 
 exports.createBand = function(req,res) {
   // console.log(req.body);

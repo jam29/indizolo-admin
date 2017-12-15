@@ -1,4 +1,3 @@
-
 var util = require('util');
 var app = require('express')();
 var express = require('express');
@@ -21,9 +20,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-
- //var db = mongoose.connect('mongodb://umqnqzlxdvsudat:C1Sy5EFDLleRYiEGEixr@bsrhghbr5gqng0h-mongodb.services.clever-cloud.com:27017/bsrhghbr5gqng0h');
- var db = mongoose.connect('mongodb://umv26kv2288lzv7:qAif8N746UNeUm4s9Cx7@b1eflgsgur8yey1-mongodb.services.clever-cloud.com:27017/b1eflgsgur8yey1');
+var db = mongoose.connect('mongodb://localhost/indizolo');
 
 require('./server/models.js');
 require('./server/user.js');
@@ -52,7 +49,7 @@ passport.serializeUser(function(user, done) {
  
 passport.deserializeUser(function(id, done) {
   Users.findById(id, function(err, user) {
-    //console.log(user);
+    console.log(user);
     done(err, user);
   });
 });
@@ -80,9 +77,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }))
 
 
-// app.use(express.static(path.join(__dirname, 'public')));
-
-
     function ensureAuthenticated(req,res,next) {
         console.log("session:",req.session);
         if (req.isAuthenticated()) {
@@ -98,14 +92,13 @@ passport.use(new LocalStrategy(function(username, password, done) {
   var banners   =   require('./server/banner_controller');
   var carousel  =   require('./server/carousel_controller');
 
- app.get('/', ensureAuthenticated ,function(req, res) { res.redirect('/index'); }); 
- app.get('/index', ensureAuthenticated ,function(req, res) { 
+
+ app.get('/', ensureAuthenticated ,function(req, res) { 
   console.log ("USER:",req.user)
   console.log ("USERNAME:",req.user.username)
   console.log ("PASSWORD:",req.user.password)
-  res.render('index'); }); 
-
- // app.get('/', function(req, res) {res.render('index'); });   
+  res.render('index'); 
+}); 
 
   app.get  ('/bands/get' , bands.getBands ) ;  
   app.get  ('/bands/getOne/:id' , bands.getOne ) ;
@@ -114,19 +107,20 @@ passport.use(new LocalStrategy(function(username, password, done) {
   app.post ('/bands/delete' , ensureAuthenticated ,       bands.deleteBand  ) ; 
   app.get  ('/bands/liste/:searchText',  bands.searchBands ) ;
 
-  app.get('/banners/get'   ,  banners.getBanners ) ;
-    app.post('/banners/post'  ,  banners.addBanner ) ;
-  app.post('/banners/put'  ,  banners.updateBanners ) ;  
+  app.get('/banners/get'   ,     banners.getBanners ) ;
+  app.post('/banners/post'  ,    banners.addBanner ) ;
+  app.post('/banners/put'  ,     banners.updateBanners ) ; 
+  app.post('/banners/delete'  ,  banners.deleteBanners ) ;  
 
   app.get('/carousel/get'  ,   carousel.getCarousel ) ;
   app.post('/carousel/put' ,   carousel.updateCarousel ) ;  
   app.post('/carousel/post' ,  carousel.addCarousel ) ; 
-  // app.post ('/carousel/delete' , ensureAuthenticated , carousel.deleteCarousel  ) ;  
   app.post ('/carousel/delete' , ensureAuthenticated , carousel.deleteCarousel ) ;  
 
   app.get('/login', function(req, res) {   
     if (req.isAuthenticated()) { console.log ("ALREADY AUTH",req.user) ; return }
         else {
+console.log("gologin");
             res.render('login');
         }
   });
@@ -140,7 +134,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
   app.post('/login',
     passport.authenticate('local', {
-    successRedirect: '/index',
+    successRedirect: '/',
     failureRedirect: '/loginFailure'
   })
 );
@@ -148,12 +142,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
 app.get('/loginFailure', function(req, res, next) {
   res.send('Failed to authenticate');
 });
-
-/*
-app.get('/loginSuccess', function(req, res, next) {
-  res.send('Successfully authenticated');
-});
-*/
 
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
@@ -163,5 +151,5 @@ io.on('connection', function (socket) {
 });
 
 
-server.listen(8080);
-console.log("listen on 8080")
+server.listen(8090);
+console.log("listen on 8090")

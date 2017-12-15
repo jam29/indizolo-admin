@@ -150,6 +150,19 @@ $scope.addBanner = function() {
                         });    
     }
     
+    $scope.deleteBanner = function(banner){
+alert(banner._id);
+                    var res = $http.post('/banners/delete', { id: banner._id } );
+                        res.success(function(data, status, headers, config) {
+                            
+                            $scope.banners = $filter('filter')($scope.banners, { _id: '!'+banner._id })
+                            //$scope.message = data;
+                        });
+                        
+                        res.error(function(data, status, headers, config) {
+                            alert( "failure message: " + JSON.stringify({data: data}));
+                        });    
+    }
 
 
 }])
@@ -160,8 +173,6 @@ $scope.addBanner = function() {
     $scope.poub   = false ;
     $scope.member = false ;
     $scope.album  = false ;
-
-
 
     $scope.addLink = function(id) {
             $scope.currentMember.autres_groupes.push(id)
